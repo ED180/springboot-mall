@@ -2,6 +2,6 @@ package com.ED.springbootmall.constant;
 
 public enum ProductCategory {
     FOOD,
-    CARD,
+    CAR,
     E_BOOK
 }
