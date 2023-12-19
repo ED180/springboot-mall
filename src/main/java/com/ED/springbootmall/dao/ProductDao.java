@@ -3,7 +3,10 @@ package com.ED.springbootmall.dao;
 import com.ED.springbootmall.dto.ProductRequest;
 import com.ED.springbootmall.model.Product;
 
+import java.util.List;
+
 public interface ProductDao {
+    List<Product> getProducts();
     Product getProductById(Integer productId);
 
     Integer createProduct(ProductRequest productRequest);
@@ -11,4 +14,5 @@ public interface ProductDao {
     void updateProduct(Integer productId, ProductRequest productRequest);
 
     void deleteProductById(Integer productId);
+
 }
