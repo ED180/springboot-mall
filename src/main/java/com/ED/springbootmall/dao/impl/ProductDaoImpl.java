@@ -24,18 +24,19 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Product> getProducts(ProductQueryParams productQueryParams) {
-        String sql = "select * from product ";
+        String sql = "select * from product where 1 = 1 ";
 
         Map<String, Object> map = new HashMap<>();
 
         if (productQueryParams.getCategory() != null) {
-            sql = sql + "where category = :category ";
+            sql = sql + "and category = :category ";
             map.put("category", productQueryParams.getCategory().name());
         }
         if (productQueryParams.getSearch() != null) {
-            sql = sql + "and product_name like :search";
+            sql = sql + "and product_name like :search ";
             map.put("search", "%" + productQueryParams.getSearch() + "%");
         }
+        sql = sql + "order By " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
 
         return namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
     }
