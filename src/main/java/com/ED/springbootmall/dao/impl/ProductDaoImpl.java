@@ -8,6 +8,7 @@ import com.ED.springbootmall.model.Product;
 import com.ED.springbootmall.rowmapper.ProductRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -21,6 +22,30 @@ public class ProductDaoImpl implements ProductDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+
+    @Override
+    public Integer countProduct(ProductQueryParams productQueryParams) {
+        String sql = "select count(*) from product where 1 = 1 ";
+
+        Map<String, Object> map = new HashMap<>();
+
+        //查詢條件
+        if (productQueryParams.getCategory() != null) {
+            sql = sql + "and category = :category ";
+            map.put("category", productQueryParams.getCategory().name());
+        }
+
+        if (productQueryParams.getSearch() != null) {
+            sql = sql + "and product_name like :search ";
+            map.put("search", "%" + productQueryParams.getSearch() + "%");
+        }
+
+        Integer total =  namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
+
+        return total;
+
+
+    }
 
     @Override
     public List<Product> getProducts(ProductQueryParams productQueryParams) {
